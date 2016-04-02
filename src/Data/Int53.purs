@@ -6,12 +6,12 @@
 -- |
 -- | ### Making an `Int53`
 -- |
--- | To create an `Int53` from a `Number`, use `fromNumber` or, more often,
--- | `ceil`, `floor`, `round` or `truncate`.
+-- | To create an `Int53` from a `Number`, use [`fromNumber`](#v:fromNumber) or, more often,
+-- | [`ceil`](#v:ceil), [`floor`](#v:floor), [`round`]((#v:round) or [`truncate`](#v:truncate).
 -- |
--- | To create an `Int53` from an `Int`, use `fromInt`.
+-- | To create an `Int53` from an `Int`, use [`fromInt`](#v:fromInt).
 -- |
--- | If you're starting from a `String`, then there is `fromString`.
+-- | If you're starting from a `String`, then there is [`fromString`](#:v:fromString).
 -- |
 -- | ### Using an `Int53`
 -- |
@@ -19,20 +19,20 @@
 -- | etc., in the usual way, since the ordinary classes for arithmetic are
 -- | implemented. It should feel pretty much like using an ordinary integer.
 -- |
--- | There are also functions for `even` and `odd`.
+-- | There are also functions for [`even`](#v:even) and [`odd`](#v:odd).
 -- |
 -- | ### Converting an `Int53` to something else
 -- |
--- | When you need a `Number` again, you can use `toNumber` -- and when you need
--- | an `Int`, there is `toInt`.
+-- | When you need a `Number` again, you can use [`toNumber`](#v:toNumber) -- and when you need
+-- | an `Int`, there is [`toInt`](#v:toInt).
 -- |
 -- | To get back to a `String`, there is a `Show` instance, so you can use `show`.
 -- | However, that includes the `Int53` tag in the resulting string, so you might
--- | sometimes want `toString` instead.
+-- | sometimes want [`toString`](#v:toString) instead.
 -- |
 -- | ### The `Int53Value` class
 -- |
--- | There is also a class for `Int53Value`, which might sometimes be useful if you
+-- | There is also a class for [`Int53Value`](#t:Int53Value), which might sometimes be useful if you
 -- | have a function where you'd like to accept either an `Int` or an `Int53`.
 -- | Often you won't need this.
 
@@ -72,6 +72,17 @@ import Data.String (stripSuffix)
 -- |
 -- | It is implemented a newtype over a `Number` (that is, a Javascript number),
 -- | with matters arranged so that it will always be an integer.
+-- |
+-- | In case you've forgotten what all the instances mean, you've got:
+-- |
+-- |     Semiring: add, zero, mul, one, (+), (*)
+-- |     Ring: sub, (-), negate
+-- |     ModuleSemiring: div, mod, (/)
+-- |
+-- | ... plus the usual `Eq`, `Ord` and `Show`.
+-- |
+-- | There's also `top` and `bottom` from `Bounded`, which indicate the maximum
+-- | and minimum values available for an `Int53`.
 newtype Int53 = Int53 Number
 
 
@@ -285,9 +296,22 @@ odd :: Int53 -> Boolean
 odd = not <<< even
 
 
--- | A class for cases where we'd like to accept eitner `Int` or `Int53`,
--- | work with `Int53` internally, and then return whatever type we were
--- | given.
+-- | A class which allows a function to accept eitner an `Int` or an `Int53`,
+-- | work with `Int53` internally, and then return whatever type was provided.
+-- |
+-- | For instance, you can do something like:
+-- |
+-- |     doSomethingWithIntOrInt53 :: ∀ a. (Int53Value a) => a -> a
+-- |     doSomethingWithIntOrInt53 = fromInt53 <<< doSometingWithInt53 <<< toInt53
+-- |
+-- |     doSomethingWithInt53 :: Int53 -> Int53
+-- |     doSomethingWithInt53 = ...
+-- |
+-- | This is basically for cases where only some **intermediate** steps need the
+-- | `Int53` range -- that is, where an input in the `Int` range will produce an
+-- | output in the `Int` range, but one needs an `Int53` in the middle.
+-- |
+-- | So, you won't need this very often ... it's just a convenience in some cases.
 class Int53Value a where
     toInt53 :: a -> Int53
     fromInt53 :: Int53 -> a
