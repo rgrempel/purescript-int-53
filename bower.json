@@ -1,0 +1,34 @@
+{
+  "name": "purescript-int-53",
+  "homepage": "https://github.com/rgrempel/purescript-int-53",
+  "authors": [
+    "Ryan Rempel <rgrempel@gmail.com>"
+  ],
+  "description": "Purescript 53-bit integer type",
+  "license": "MIT",
+  "keywords": [
+    "purescript"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "~0.1.5",
+    "purescript-math": "~0.2.0",
+    "purescript-globals": "~0.2.2",
+    "purescript-maybe": "~0.3.5",
+    "purescript-integers": "~0.2.1",
+    "purescript-strings": "~0.7.1"
+  },
+  "devDependencies": {
+    "purescript-test-unit": "~4.1.0",
+    "purescript-quickcheck-laws": "~0.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rgrempel/purescript-int-53.git"
+  }
+}
