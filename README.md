@@ -1,3 +1,5 @@
+[![Latest release](http://img.shields.io/bower/v/purescript-int-53.svg)](https://github.com/rgrempel/purescript-int-53/releases)
+
 # purescript-int-53
 
 Purescript's built-in `Int` type is restricted to 32-bit integers. However, the
