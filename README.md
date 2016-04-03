@@ -12,6 +12,7 @@ provides an `Int53` type, for cases where you want all 53 bits
 ## API
 
 Documentation for the API can be found on [Pursuit](https://pursuit.purescript.org/packages/purescript-int-53).
+Or, if you are already looking at Pursuit, then below ...
 
 ## Installation
 
