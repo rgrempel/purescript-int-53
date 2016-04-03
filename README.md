@@ -1,4 +1,5 @@
 [![Latest release](http://img.shields.io/bower/v/purescript-int-53.svg)](https://github.com/rgrempel/purescript-int-53/releases)
+[![Dependency Status](https://www.versioneye.com/user/projects/57007272fcd19a0051853c1d/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57007272fcd19a0051853c1d)
 
 # purescript-int-53
 
