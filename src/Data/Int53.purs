@@ -7,7 +7,7 @@
 -- | ### Making an `Int53`
 -- |
 -- | To create an `Int53` from a `Number`, use [`fromNumber`](#v:fromNumber) or, more often,
--- | [`ceil`](#v:ceil), [`floor`](#v:floor), [`round`]((#v:round) or [`truncate`](#v:truncate).
+-- | [`ceil`](#v:ceil), [`floor`](#v:floor), [`round`](#v:round) or [`truncate`](#v:truncate).
 -- |
 -- | To create an `Int53` from an `Int`, use [`fromInt`](#v:fromInt).
 -- |
@@ -302,7 +302,8 @@ odd = not <<< even
 -- | For instance, you can do something like:
 -- |
 -- |     doSomethingWithIntOrInt53 :: ∀ a. (Int53Value a) => a -> a
--- |     doSomethingWithIntOrInt53 = fromInt53 <<< doSometingWithInt53 <<< toInt53
+-- |     doSomethingWithIntOrInt53 =
+-- |         fromInt53 <<< doSometingWithInt53 <<< toInt53
 -- |
 -- |     doSomethingWithInt53 :: Int53 -> Int53
 -- |     doSomethingWithInt53 = ...
