@@ -19,7 +19,7 @@
 -- | etc., in the usual way, since the ordinary classes for arithmetic are
 -- | implemented. It should feel pretty much like using an ordinary integer.
 -- |
--- | There are also functions for [`even`](#v:even) and [`odd`](#v:odd).
+-- | There are also functions for [`even`](#v:even), [`odd`](#v:odd), and [`pow`](#v:pow).
 -- |
 -- | ### Converting an `Int53` to something else
 -- |
@@ -44,6 +44,7 @@ module Data.Int53
     , fromString, toString
     , ceil, floor, round, truncate
     , even, odd
+    , pow
     ) where
 
 
@@ -294,6 +295,21 @@ even (Int53 a) = Math.(%) a 2.0 == 0.0
 -- |     odd (fromInt 1) == true
 odd :: Int53 -> Boolean
 odd = not <<< even
+
+
+-- | Raises the first argument to the power of the second argument (the exponent).
+-- |
+-- | If the exponent is less than 0, then `pow` returns 0.
+-- |
+-- |     pow (fromInt 2) (fromInt 3) == (fromInt 8)
+-- |     pow (fromInt 2) (fromInt 0) == (fromInt 1)
+-- |     pow (fromInt 0) (fromInt 0) == (fromInt 1)
+-- |     pow (fromInt 2) (fromInt (-2)) == (fromInt 0)
+pow :: Int53 -> Int53 -> Int53
+pow (Int53 base) (Int53 exponent) =
+    if exponent < 0.0
+        then Int53 0.0
+        else Int53 $ Math.pow base exponent
 
 
 -- | A class which allows a function to accept eitner an `Int` or an `Int53`,

@@ -128,6 +128,12 @@ main = runTest do
         quickCheck \a ->
             Int.odd a === odd (fromInt a)
 
+    test "pow" do
+        pow (fromInt 2) (fromInt 3) ==> (fromInt 8)
+        pow (fromInt 2) (fromInt 0) ==> (fromInt 1)
+        pow (fromInt 0) (fromInt 0) ==> (fromInt 1)
+        pow (fromInt 2) (fromInt (-2)) ==> (fromInt 0)
+
     test "top" do
         ((topInt53 - one) + one) ==> topInt53
 
