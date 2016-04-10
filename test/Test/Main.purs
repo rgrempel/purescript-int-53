@@ -134,6 +134,11 @@ main = runTest do
         pow (fromInt 0) (fromInt 0) ==> (fromInt 1)
         pow (fromInt 2) (fromInt (-2)) ==> (fromInt 0)
 
+    test "abs" do
+        abs (fromInt 2) ==> (fromInt 2)
+        abs (fromInt (-2)) ==> (fromInt 2)
+        abs (fromInt 0) ==> (fromInt 0)
+
     test "top" do
         ((topInt53 - one) + one) ==> topInt53
 
