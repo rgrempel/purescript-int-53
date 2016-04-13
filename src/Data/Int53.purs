@@ -167,10 +167,7 @@ unsafeClamp a =
 -- |     truncate (1.0e65) == top
 -- |     truncate (-1.0e65) == bottom
 truncate :: Number -> Int53
-truncate a =
-    if a > 0.0
-        then floor a
-        else ceil a
+truncate = unsafeClamp <<< Math.trunc
 
 
 -- | Convert a `Number` to an `Int53`, by taking the closest integer equal to or

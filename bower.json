@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "purescript-prelude": "~0.1.5",
-    "purescript-math": "~0.2.0",
+    "purescript-math": "~1.0.0",
     "purescript-globals": "~0.2.2",
     "purescript-maybe": "~0.3.5",
     "purescript-integers": "~0.2.1",
@@ -30,5 +30,8 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/rgrempel/purescript-int-53.git"
+  },
+  "resolutions": {
+    "purescript-math": "~1.0.0"
   }
 }
