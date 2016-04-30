@@ -1,6 +1,7 @@
 module Test.Main where
 
-import Test.Unit (TIMER, Assertion, test, runTest)
+import Test.Unit (TIMER, Test, test)
+import Test.Unit.Main (runTest)
 import Test.Unit.Console (TESTOUTPUT)
 import Test.Unit.Assert (equal)
 import Test.Unit.QuickCheck (quickCheck)
@@ -168,7 +169,7 @@ main = runTest do
 
 infixl 9 equals as ==>
 
-equals :: ∀ a e. (Eq a, Show a) => a -> a -> Assertion e
+equals :: ∀ a e. (Eq a, Show a) => a -> a -> Test e
 equals = flip equal
 
 
