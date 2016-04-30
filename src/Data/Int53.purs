@@ -4,6 +4,13 @@
 -- | provides an `Int53` type, for cases where you want all 53 bits
 -- | (from -9,007,199,254,740,991 to 9,007,199,254,740,991).
 -- |
+-- | For even larger numbers, consider
+-- | [purescript-bigints](https://pursuit.purescript.org/packages/purescript-bigints), or
+-- | [purescript-hugenums](https://pursuit.purescript.org/packages/purescript-hugenums).
+-- | The advantage of purescript-int-53 over those is that purescript-int-53 is likely
+-- | to be faster, since it provides a "thinner" wrapper over the underlying Javascript
+-- | operations.
+-- |
 -- | ### Making an `Int53`
 -- |
 -- | To create an `Int53` from a `Number`, use [`fromNumber`](#v:fromNumber) or, more often,
