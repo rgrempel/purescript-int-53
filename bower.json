@@ -16,22 +16,19 @@
     "output"
   ],
   "dependencies": {
-    "purescript-prelude": "~0.1.5",
-    "purescript-math": "~1.0.0",
-    "purescript-globals": "~0.2.2",
-    "purescript-maybe": "~0.3.5",
-    "purescript-integers": "~0.2.1",
-    "purescript-strings": "~0.7.1"
+    "purescript-prelude": "^1.0.0",
+    "purescript-math": "^2.0.0",
+    "purescript-globals": "^1.0.0",
+    "purescript-maybe": "^1.0.0",
+    "purescript-integers": "^1.0.0",
+    "purescript-strings": "^1.0.0"
   },
   "devDependencies": {
-    "purescript-test-unit": "~6.0.0",
-    "purescript-quickcheck-laws": "~0.1.1"
+    "purescript-test-unit": "^7.0.0",
+    "purescript-quickcheck-laws": "^1.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/rgrempel/purescript-int-53.git"
-  },
-  "resolutions": {
-    "purescript-math": "~1.0.0"
   }
 }

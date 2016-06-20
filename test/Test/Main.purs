@@ -12,7 +12,8 @@ import Test.QuickCheck.Gen (choose)
 
 import Type.Proxy (Proxy(..))
 
-import Test.QuickCheck.Laws.Data.ModuloSemiring (checkModuloSemiring)
+import Test.QuickCheck.Laws.Data.CommutativeRing (checkCommutativeRing)
+import Test.QuickCheck.Laws.Data.EuclideanRing (checkEuclideanRing)
 import Test.QuickCheck.Laws.Data.Semiring (checkSemiring)
 import Test.QuickCheck.Laws.Data.Bounded (checkBounded)
 import Test.QuickCheck.Laws.Data.Ring (checkRing)
@@ -22,6 +23,7 @@ import Test.QuickCheck.Laws.Data.Ord (checkOrd)
 import Data.Int53
 import Data.Maybe (Maybe(..))
 import Data.Int as Int
+import Global (nan)
 
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Random (RANDOM)
@@ -33,20 +35,21 @@ import Control.Monad.Aff.AVar (AVAR)
 import Prelude
     ( class Bounded, top, bottom, class Ord, compare, class Eq, eq
     , class Semiring, add, zero, mul, one
-    , class Ring, sub, class ModuloSemiring, div, mod
+    , class Ring, sub
+    , class EuclideanRing, degree, div, mod
+    , class CommutativeRing
     , class Show, show
     , Unit, pure, bind, negate, ($), flip, (+), (-), (>)
     )
 
 
-main :: ∀ e. Eff
+main :: Eff
     ( timer :: TIMER
     , avar :: AVAR
     , testOutput :: TESTOUTPUT
     , random :: RANDOM
     , console :: CONSOLE
     , err :: EXCEPTION
-    | e
     ) Unit
 
 main = runTest do
@@ -87,7 +90,7 @@ main = runTest do
         round (-1.0e65) ==> bottom
 
     test "fromNumber" do
-        fromNumber Global.nan ==> nothing
+        fromNumber nan ==> nothing
         fromNumber 2.5 ==> nothing
         fromNumber 1.0e65 ==> nothing
         fromNumber (-1.0e65) ==> nothing
@@ -162,7 +165,8 @@ main = runTest do
             checkSemiring proxyInt53
             checkBounded proxyInt53
             checkRing proxyInt53
-            checkModuloSemiring proxyInt53
+            checkCommutativeRing proxyInt53
+            checkEuclideanRing proxyInt53
             checkEq proxyInt53
             checkOrd proxyInt53
 
@@ -234,6 +238,9 @@ instance ordTestable :: Ord Testable where
 instance ringTestable :: Ring Testable where
     sub (Testable a) (Testable b) = Testable $ sub a b
 
-instance moduloSemiringTestable :: ModuloSemiring Testable where
+instance euclideanRingTestable :: EuclideanRing Testable where
+    degree (Testable a) = degree a
     div (Testable a) (Testable b) = Testable $ div a b
     mod (Testable a) (Testable b) = Testable $ mod a b
+
+instance commutativeRingTestable :: CommutativeRing Testable

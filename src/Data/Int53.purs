@@ -58,11 +58,11 @@ module Data.Int53
 
 import Prelude
     ( class Semiring, add, zero, mul, one
-    , class Ring, sub, class ModuloSemiring, div
+    , class Ring, sub, class CommutativeRing, class EuclideanRing, div, degree
     , class Bounded, top, bottom
-    , class Eq, eq, class Ord, compare, class BoundedOrd
+    , class Eq, eq, class Ord, compare
     , class Show, show
-    , (==), ($), (++), (>), (<), negate, not, (<<<), (||), id
+    , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), id
     )
 
 import Math as Math
@@ -106,13 +106,20 @@ instance ringInt53 :: Ring Int53 where
     sub (Int53 a) (Int53 b) = Int53 $ sub a b
 
 
+instance commutativeRingInt53 :: CommutativeRing Int53
+
+
 -- This is particularly where we need to make sure we're actually
 -- returning an integer.
 --
 -- Purescript is more aggressive than this with the `Int` type,
 -- dropping fractional parts via `(i | 0)` even when you wouldn't
 -- think a fractional part was possible.
-instance moduloSemiringInt53 :: ModuloSemiring Int53 where
+instance euclideanRingInt53 :: EuclideanRing Int53 where
+    -- Not sure that I actually underatand what `degree` is supposed to do,
+    -- but since our underlying representation is `Number`, I suppose we
+    -- may as well just re-use that.
+    degree (Int53 a) = degree a
     div (Int53 a) (Int53 b) = truncate $ div a b
     mod (Int53 a) (Int53 b) = Int53 $ Math.(%) a b
 
@@ -140,16 +147,13 @@ bottomFloat :: Number
 bottomFloat = -9007199254740991.0
 
 
-instance boundedOrdInt53 :: BoundedOrd Int53 where
-
-
 -- Note that this produces valid PureScript (in one sense), but we
 -- don't actually expose the `Int53` constructor, since that would
 -- allow constructing an `Int53` which isn't really an integer.
 -- So, I suppose we could use `truncate` here instead, but that would
 -- seem a bit obscure, say, in an interactive repl session.
 instance showInt53 :: Show Int53 where
-    show (Int53 a) = "(Int53 " ++ show a ++ ")"
+    show (Int53 a) = "(Int53 " <> show a <> ")"
 
 
 -- Clamps to the top and bottom. Unsafe because it assumes that
