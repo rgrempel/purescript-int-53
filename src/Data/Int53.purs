@@ -86,7 +86,7 @@ import Data.String (stripSuffix)
 -- |
 -- |     Semiring: add, zero, mul, one, (+), (*)
 -- |     Ring: sub, (-), negate
--- |     ModuleSemiring: div, mod, (/)
+-- |     EuclideanRing: div, mod, (/), degree
 -- |
 -- | ... plus the usual `Eq`, `Ord` and `Show`.
 -- |
