@@ -60,7 +60,7 @@ import Prelude
     ( class Semiring, add, zero, mul, one
     , class Ring, sub, class CommutativeRing, class EuclideanRing, div, degree
     , class Bounded, top, bottom
-    , class Eq, eq, class Ord, compare
+    , class Eq, class Ord
     , class Show, show
     , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), id
     )
@@ -70,6 +70,7 @@ import Global (readFloat, isNaN)
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Int (toNumber, floor) as Int
 import Data.String (stripSuffix)
+import Data.Generic (class Generic)
 
 
 -- Internally, an Int53 is a newtype over a `Number`. We implement the various
@@ -124,12 +125,9 @@ instance euclideanRingInt53 :: EuclideanRing Int53 where
     mod (Int53 a) (Int53 b) = Int53 $ Math.(%) a b
 
 
-instance eqInt53 :: Eq Int53 where
-    eq (Int53 a) (Int53 b) = eq a b
-
-
-instance ordInt53 :: Ord Int53 where
-    compare (Int53 a) (Int53 b) = compare a b
+derive instance eqInt53 :: Eq Int53
+derive instance ordInt53 :: Ord Int53
+derive instance genericInt53 :: Generic Int53
 
 
 instance boundedInt53 :: Bounded Int53 where
