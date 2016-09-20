@@ -60,9 +60,9 @@ import Prelude
     ( class Semiring, add, zero, mul, one
     , class Ring, sub, class CommutativeRing, class EuclideanRing, div, degree
     , class Bounded, top, bottom
-    , class Eq, eq, class Ord, compare
+    , class Eq, class Ord
     , class Show, show
-    , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), id
+    , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), id, unit, (>>=)
     )
 
 import Math as Math
@@ -70,6 +70,7 @@ import Global (readFloat, isNaN)
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Int (toNumber, floor) as Int
 import Data.String (stripSuffix)
+import Data.Generic (class Generic, GenericSpine(..), GenericSignature(..), toSpine, fromSpine)
 
 
 -- Internally, an Int53 is a newtype over a `Number`. We implement the various
@@ -93,6 +94,33 @@ import Data.String (stripSuffix)
 -- | There's also `top` and `bottom` from `Bounded`, which indicate the maximum
 -- | and minimum values available for an `Int53`.
 newtype Int53 = Int53 Number
+
+
+-- A convenience for the `Generic` instance.
+qualifiedName :: String
+qualifiedName = "Data.Int53.Int53"
+
+
+-- We don't want to just derive a `Generic` instance, because then you could use
+-- `fromSpine` to construct an `Int53` that isn't really an integer. So, we use
+-- `fromNumber` below to prevent that.
+instance genericInt53 :: Generic Int53 where
+    toSignature _ =
+        SigProd qualifiedName
+            [ { sigConstructor: qualifiedName
+              , sigValues: [ \_ -> SigNumber ]
+              }
+            ]
+
+    toSpine (Int53 n) =
+        SProd qualifiedName [\_ -> toSpine n]
+
+    fromSpine (SProd qName [n]) | qName == qualifiedName =
+        -- This is where we use `fromNumber` to return `Nothing` if the generic
+        -- value is not actually an `Integer`
+        fromSpine (n unit) >>= fromNumber
+
+    fromSpine _ = Nothing
 
 
 instance semiringInt53 :: Semiring Int53 where
@@ -124,12 +152,8 @@ instance euclideanRingInt53 :: EuclideanRing Int53 where
     mod (Int53 a) (Int53 b) = Int53 $ Math.(%) a b
 
 
-instance eqInt53 :: Eq Int53 where
-    eq (Int53 a) (Int53 b) = eq a b
-
-
-instance ordInt53 :: Ord Int53 where
-    compare (Int53 a) (Int53 b) = compare a b
+derive instance eqInt53 :: Eq Int53
+derive instance ordInt53 :: Ord Int53
 
 
 instance boundedInt53 :: Bounded Int53 where

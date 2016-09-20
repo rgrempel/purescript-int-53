@@ -3,7 +3,7 @@ module Test.Main where
 import Test.Unit (TIMER, Test, test)
 import Test.Unit.Main (runTest)
 import Test.Unit.Console (TESTOUTPUT)
-import Test.Unit.Assert (equal)
+import Test.Unit.Assert (equal, assert)
 import Test.Unit.QuickCheck (quickCheck)
 
 import Test.QuickCheck ((===))
@@ -23,6 +23,7 @@ import Test.QuickCheck.Laws.Data.Ord (checkOrd)
 import Data.Int53
 import Data.Maybe (Maybe(..))
 import Data.Int as Int
+import Data.Generic (GenericSpine(..), isValidSpine, toSpine, fromSpine, toSignature)
 import Global (nan)
 
 import Control.Monad.Eff (Eff)
@@ -33,7 +34,7 @@ import Control.Monad.Eff.Class (liftEff)
 import Control.Monad.Aff.AVar (AVAR)
 
 import Prelude
-    ( class Bounded, top, bottom, class Ord, compare, class Eq, eq
+    ( class Bounded, top, bottom, class Ord, class Eq
     , class Semiring, add, zero, mul, one
     , class Ring, sub
     , class EuclideanRing, degree, div, mod
@@ -160,6 +161,17 @@ main = runTest do
         show (fromInt (-27)) ==> "(Int53 -27.0)"
         show (fromInt (0)) ==> "(Int53 0.0)"
 
+    test "generics" do
+        assert "isValidSpine" $ isValidSpine (toSignature (Proxy :: Proxy Int53)) (toSpine (fromInt 27))
+
+        -- Check that toSpine and fromSpine round-trip
+        quickCheck \a ->
+            fromSpine (toSpine (fromInt a)) === Just (fromInt a)
+
+        -- Check that you can't construct a non-integer via generics
+        fromSpine (SProd "Data.Int53.Int53" [\_ -> SNumber 27.0]) ==> Just (fromInt 27)
+        fromSpine (SProd "Data.Int53.Int53" [\_ -> SNumber 28.3]) ==> (Nothing :: Maybe Int53)
+
     test "laws\n" $
         liftEff do
             checkSemiring proxyInt53
@@ -225,15 +237,12 @@ instance semiringTestable :: Semiring Testable where
     mul (Testable a) (Testable b) = Testable $ mul a b
     one = Testable one
 
-instance eqTestable :: Eq Testable where
-    eq (Testable a) (Testable b) = eq a b
+derive instance eqTestable :: Eq Testable
+derive instance ordTestable :: Ord Testable
 
 instance boundedTestable :: Bounded Testable where
     top = Testable top
     bottom = Testable bottom
-
-instance ordTestable :: Ord Testable where
-    compare (Testable a) (Testable b) = compare a b
 
 instance ringTestable :: Ring Testable where
     sub (Testable a) (Testable b) = Testable $ sub a b
