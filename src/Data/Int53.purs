@@ -38,6 +38,9 @@
 -- | However, that includes the `Int53` tag in the resulting string, so you might
 -- | sometimes want [`toString`](#v:toString) instead.
 -- |
+-- | There is also now an instance of `Data.Generic`, which you might find helpful in cases
+-- | where an `Int53` is part of a larger data structure which you would like to make `Generic`.
+-- |
 -- | ### The `Int53Value` class
 -- |
 -- | There is also a class for [`Int53Value`](#t:Int53Value), which might sometimes be useful if you
