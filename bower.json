@@ -16,16 +16,16 @@
     "output"
   ],
   "dependencies": {
-    "purescript-prelude": "^1.0.0",
+    "purescript-prelude": "^2.0.0",
     "purescript-math": "^2.0.0",
-    "purescript-globals": "^1.0.0",
-    "purescript-maybe": "^1.0.0",
-    "purescript-integers": "^1.0.0",
-    "purescript-strings": "^1.0.0",
-    "purescript-generics": "^1.0.0"
+    "purescript-globals": "^2.0.0",
+    "purescript-maybe": "^2.0.0",
+    "purescript-integers": "^2.0.0",
+    "purescript-strings": "^2.0.0",
+    "purescript-generics": "^3.0.0"
   },
   "devDependencies": {
-    "purescript-test-unit": "^7.0.0",
+    "purescript-test-unit": "^9.0.0",
     "purescript-quickcheck-laws": "^1.0.0"
   },
   "repository": {

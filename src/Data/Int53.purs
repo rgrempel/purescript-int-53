@@ -72,7 +72,7 @@ import Math as Math
 import Global (readFloat, isNaN)
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Int (toNumber, floor) as Int
-import Data.String (stripSuffix)
+import Data.String (Pattern(..), stripSuffix)
 import Data.Generic (class Generic, GenericSpine(..), GenericSignature(..), toSpine, fromSpine)
 
 
@@ -296,7 +296,7 @@ fromString = fromNumber <<< readFloat
 toString :: Int53 -> String
 toString (Int53 a) =
     -- In principle, it should always end in ".0", but we'll check
-    fromMaybe showNum (stripSuffix ".0" showNum)
+    fromMaybe showNum (stripSuffix (Pattern ".0") showNum)
       where
         showNum = show a
 
