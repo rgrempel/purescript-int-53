@@ -1,6 +1,6 @@
 module Test.Main where
 
-import Test.Unit (TIMER, Test, test)
+import Test.Unit (Test, test)
 import Test.Unit.Main (runTest)
 import Test.Unit.Console (TESTOUTPUT)
 import Test.Unit.Assert (equal, assert)
@@ -45,8 +45,7 @@ import Prelude
 
 
 main :: Eff
-    ( timer :: TIMER
-    , avar :: AVAR
+    ( avar :: AVAR
     , testOutput :: TESTOUTPUT
     , random :: RANDOM
     , console :: CONSOLE

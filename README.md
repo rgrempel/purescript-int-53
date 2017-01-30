@@ -25,8 +25,9 @@ Try `bower install purescript-int-53`
 Try something like:
 
     git clone https://github.com/rgrempel/purescript-int-53
+    npm install
     bower install
-    pulp test
+    npm test
 
 ## API
 
