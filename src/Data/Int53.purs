@@ -61,11 +61,11 @@ module Data.Int53
 
 import Prelude
     ( class Semiring, add, zero, mul, one
-    , class Ring, sub, class CommutativeRing, class EuclideanRing, div, degree
+    , class Ring, sub, class CommutativeRing, class EuclideanRing, div
     , class Bounded, top, bottom
     , class Eq, class Ord
     , class Show, show
-    , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), id, unit, (>>=)
+    , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), id, unit, (>>=), (>>>)
     )
 
 import Math as Math
@@ -147,10 +147,9 @@ instance commutativeRingInt53 :: CommutativeRing Int53
 -- dropping fractional parts via `(i | 0)` even when you wouldn't
 -- think a fractional part was possible.
 instance euclideanRingInt53 :: EuclideanRing Int53 where
-    -- Not sure that I actually underatand what `degree` is supposed to do,
-    -- but since our underlying representation is `Number`, I suppose we
-    -- may as well just re-use that.
-    degree (Int53 a) = degree a
+    -- For integers, `degree` is meant to be `abs`
+    -- https://github.com/rgrempel/purescript-int-53/issues/7#issuecomment-275545674
+    degree = abs >>> toInt
     div (Int53 a) (Int53 b) = truncate $ div a b
     mod (Int53 a) (Int53 b) = Int53 $ Math.(%) a b
 
