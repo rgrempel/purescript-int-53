@@ -140,12 +140,6 @@ instance ringInt53 :: Ring Int53 where
 instance commutativeRingInt53 :: CommutativeRing Int53
 
 
--- This is particularly where we need to make sure we're actually
--- returning an integer.
---
--- Purescript is more aggressive than this with the `Int` type,
--- dropping fractional parts via `(i | 0)` even when you wouldn't
--- think a fractional part was possible.
 instance euclideanRingInt53 :: EuclideanRing Int53 where
     -- For integers, `degree` is meant to be `abs`
     -- https://github.com/rgrempel/purescript-int-53/issues/7#issuecomment-275545674
