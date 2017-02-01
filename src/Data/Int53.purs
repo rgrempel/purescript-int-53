@@ -127,14 +127,14 @@ instance genericInt53 :: Generic Int53 where
 
 
 instance semiringInt53 :: Semiring Int53 where
-    add (Int53 a) (Int53 b) = Int53 $ add a b
+    add (Int53 a) (Int53 b) = unsafeClamp $ add a b
     zero = Int53 zero
-    mul (Int53 a) (Int53 b) = Int53 $ mul a b
+    mul (Int53 a) (Int53 b) = unsafeClamp $ mul a b
     one = Int53 one
 
 
 instance ringInt53 :: Ring Int53 where
-    sub (Int53 a) (Int53 b) = Int53 $ sub a b
+    sub (Int53 a) (Int53 b) = unsafeClamp $ sub a b
 
 
 instance commutativeRingInt53 :: CommutativeRing Int53
@@ -344,7 +344,7 @@ pow :: Int53 -> Int53 -> Int53
 pow (Int53 base) (Int53 exponent) =
     if exponent < 0.0
         then Int53 0.0
-        else Int53 $ Math.pow base exponent
+        else unsafeClamp $ Math.pow base exponent
 
 
 -- | Takes the absolute value.

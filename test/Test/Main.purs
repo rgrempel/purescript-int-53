@@ -40,7 +40,7 @@ import Prelude
     , class EuclideanRing, degree, div, mod
     , class CommutativeRing
     , class Show, show
-    , Unit, pure, bind, negate, ($), flip, (+), (-), (>)
+    , Unit, pure, bind, negate, ($), flip, (+), (*), (-), (>)
     )
 
 
@@ -145,12 +145,20 @@ main = runTest do
 
     test "top" do
         ((topInt53 - one) + one) ==> topInt53
+        (topInt53 + one) ==> topInt53
+        (topInt53 * (one + one)) ==> topInt53
+        (topInt53 - (negate one)) ==> topInt53
+        (topInt53 `pow` (one + one)) ==> topInt53
 
         quickCheck \a ->
             (topInt53 - (posInt53 a)) + (posInt53 a) === topInt53
 
     test "bottom" do
         ((bottomInt53 + one) - one) ==> bottomInt53
+        (bottomInt53 + (negate one)) ==> bottomInt53
+        (bottomInt53 * (one + one)) ==> bottomInt53
+        (bottomInt53 - one) ==> bottomInt53
+        (bottomInt53 `pow` (one + one + one)) ==> bottomInt53
 
         quickCheck \a ->
             (bottomInt53 + (posInt53 a)) - (posInt53 a) === bottomInt53
