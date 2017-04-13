@@ -41,6 +41,7 @@ import Prelude
     , class CommutativeRing
     , class Show, show
     , Unit, pure, bind, negate, ($), flip, (+), (*), (-), (>)
+    , discard
     )
 
 
@@ -49,7 +50,7 @@ main :: Eff
     , testOutput :: TESTOUTPUT
     , random :: RANDOM
     , console :: CONSOLE
-    , err :: EXCEPTION
+    , exception :: EXCEPTION
     ) Unit
 
 main = runTest do
@@ -189,10 +190,9 @@ main = runTest do
             checkEq proxyInt53
             checkOrd proxyInt53
 
-
 infixl 9 equals as ==>
 
-equals :: ∀ a e. (Eq a, Show a) => a -> a -> Test e
+equals :: ∀ a e. Eq a => Show a => a -> a -> Test e
 equals = flip equal
 
 
