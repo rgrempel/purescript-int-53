@@ -2,8 +2,8 @@
   "name": "purescript-int-53",
   "dependencies": {},
   "devDependencies": {
-    "pulp": "^10.0.0",
-    "purescript": "^0.10.5"
+    "pulp": "^11.0.0",
+    "purescript": "^0.11.3"
   },
   "scripts": {
     "test": "pulp test"
