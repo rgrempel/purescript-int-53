@@ -125,7 +125,29 @@ instance genericInt53 :: Generic Int53 where
 
     fromSpine _ = Nothing
 
-
+-- | Addition is saturating:
+-- |
+-- | ```
+-- | >>> top + fromInt 1 == top
+-- | true
+-- | ```
+-- |
+-- | NOTE: Due to this, Int53 doesn't actually satisfy the associativity law
+-- | for addition:
+-- |
+-- | ```
+-- | >>> top + (fromInt 1 + fromInt (-1))
+-- | (Int53 9007199254740991.0)
+-- | >>> (top + fromInt 1) + fromInt (-1)
+-- | (Int53 9007199254740990.0)
+-- | ```
+-- |
+-- | Multiplication is also saturating:
+-- |
+-- | ```
+-- | >>> top * fromInt 2 == top
+-- | true
+-- | ```
 instance semiringInt53 :: Semiring Int53 where
     add (Int53 a) (Int53 b) = unsafeClamp $ add a b
     zero = Int53 zero
