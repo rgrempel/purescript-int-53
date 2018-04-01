@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "purescript-console": "^3.0.0",
-    "purescript-aff": "^3.0.0",
+    "purescript-aff": "^4.0.0",
     "purescript-random": "^3.0.0",
     "purescript-quickcheck-laws": "^3.0.0",
-    "purescript-test-unit": "^11.0.0"
+    "purescript-test-unit": "^13.0.0"
   },
   "repository": {
     "type": "git",
