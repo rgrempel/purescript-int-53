@@ -38,9 +38,6 @@
 -- | However, that includes the `Int53` tag in the resulting string, so you might
 -- | sometimes want [`toString`](#v:toString) instead.
 -- |
--- | There is also now an instance of `Data.Generic`, which you might find helpful in cases
--- | where an `Int53` is part of a larger data structure which you would like to make `Generic`.
--- |
 -- | ### The `Int53Value` class
 -- |
 -- | There is also a class for [`Int53Value`](#t:Int53Value), which might sometimes be useful if you
@@ -65,7 +62,7 @@ import Prelude
     , class Bounded, top, bottom
     , class Eq, class Ord
     , class Show, show
-    , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), id, unit, (>>=), (>>>)
+    , (==), ($), (<>), (>), (<), negate, not, (<<<), (||), identity, (>>>)
     )
 
 import Math as Math
@@ -73,7 +70,6 @@ import Global (readFloat, isNaN)
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Int (toNumber, floor) as Int
 import Data.String (Pattern(..), stripSuffix)
-import Data.Generic (class Generic, GenericSpine(..), GenericSignature(..), toSpine, fromSpine)
 
 
 -- Internally, an Int53 is a newtype over a `Number`. We implement the various
@@ -97,33 +93,6 @@ import Data.Generic (class Generic, GenericSpine(..), GenericSignature(..), toSp
 -- | There's also `top` and `bottom` from `Bounded`, which indicate the maximum
 -- | and minimum values available for an `Int53`.
 newtype Int53 = Int53 Number
-
-
--- A convenience for the `Generic` instance.
-qualifiedName :: String
-qualifiedName = "Data.Int53.Int53"
-
-
--- We don't want to just derive a `Generic` instance, because then you could use
--- `fromSpine` to construct an `Int53` that isn't really an integer. So, we use
--- `fromNumber` below to prevent that.
-instance genericInt53 :: Generic Int53 where
-    toSignature _ =
-        SigProd qualifiedName
-            [ { sigConstructor: qualifiedName
-              , sigValues: [ \_ -> SigNumber ]
-              }
-            ]
-
-    toSpine (Int53 n) =
-        SProd qualifiedName [\_ -> toSpine n]
-
-    fromSpine (SProd qName [n]) | qName == qualifiedName =
-        -- This is where we use `fromNumber` to return `Nothing` if the generic
-        -- value is not actually an `Integer`
-        fromSpine (n unit) >>= fromNumber
-
-    fromSpine _ = Nothing
 
 -- | Addition is saturating:
 -- |
@@ -395,8 +364,8 @@ class Int53Value a where
 
 
 instance int53Int53Value :: Int53Value Int53 where
-    toInt53 = id
-    fromInt53 = id
+    toInt53 = identity
+    fromInt53 = identity
 
 
 instance intInt53Value :: Int53Value Int where

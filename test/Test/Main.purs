@@ -1,57 +1,32 @@
 module Test.Main where
 
-import Test.Unit (Test, test)
-import Test.Unit.Main (runTest)
-import Test.Unit.Console (TESTOUTPUT)
-import Test.Unit.Assert (equal, assert)
-import Test.Unit.QuickCheck (quickCheck)
+import Data.Int53
 
+import Data.Int as Int
+import Data.Maybe (Maybe(..))
+import Effect (Effect)
+import Effect.Aff (Aff)
+import Effect.Class (liftEffect)
+import Global (nan)
+import Prelude (class Bounded, class CommutativeRing, class Eq, class EuclideanRing, class Ord, class Ring, class Semiring, class Show, Unit, add, bind, bottom, degree, discard, div, flip, mod, mul, negate, one, pure, show, sub, top, zero, ($), (*), (+), (-), (>))
 import Test.QuickCheck ((===))
 import Test.QuickCheck.Arbitrary (class Arbitrary)
 import Test.QuickCheck.Gen (choose)
-
+import Test.QuickCheck.Laws.Data.Bounded (checkBounded)
+import Test.QuickCheck.Laws.Data.CommutativeRing (checkCommutativeRing)
+import Test.QuickCheck.Laws.Data.Eq (checkEq)
+import Test.QuickCheck.Laws.Data.EuclideanRing (checkEuclideanRing)
+import Test.QuickCheck.Laws.Data.Ord (checkOrd)
+import Test.QuickCheck.Laws.Data.Ring (checkRing)
+import Test.QuickCheck.Laws.Data.Semiring (checkSemiring)
+import Test.Unit (test)
+import Test.Unit.Assert (equal)
+import Test.Unit.Main (runTest)
+import Test.Unit.QuickCheck (quickCheck)
 import Type.Proxy (Proxy(..))
 
-import Test.QuickCheck.Laws.Data.CommutativeRing (checkCommutativeRing)
-import Test.QuickCheck.Laws.Data.EuclideanRing (checkEuclideanRing)
-import Test.QuickCheck.Laws.Data.Semiring (checkSemiring)
-import Test.QuickCheck.Laws.Data.Bounded (checkBounded)
-import Test.QuickCheck.Laws.Data.Ring (checkRing)
-import Test.QuickCheck.Laws.Data.Eq (checkEq)
-import Test.QuickCheck.Laws.Data.Ord (checkOrd)
 
-import Data.Int53
-import Data.Maybe (Maybe(..))
-import Data.Int as Int
-import Data.Generic (GenericSpine(..), isValidSpine, toSpine, fromSpine, toSignature)
-import Global (nan)
-
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Random (RANDOM)
-import Control.Monad.Eff.Console (CONSOLE)
-import Control.Monad.Eff.Exception (EXCEPTION)
-import Control.Monad.Eff.Class (liftEff)
-import Control.Monad.Aff.AVar (AVAR)
-
-import Prelude
-    ( class Bounded, top, bottom, class Ord, class Eq
-    , class Semiring, add, zero, mul, one
-    , class Ring, sub
-    , class EuclideanRing, degree, div, mod
-    , class CommutativeRing
-    , class Show, show
-    , Unit, pure, bind, negate, ($), flip, (+), (*), (-), (>)
-    , discard
-    )
-
-
-main :: Eff
-    ( avar :: AVAR
-    , testOutput :: TESTOUTPUT
-    , random :: RANDOM
-    , console :: CONSOLE
-    , exception :: EXCEPTION
-    ) Unit
+main :: Effect Unit
 
 main = runTest do
     test "truncate" do
@@ -169,19 +144,8 @@ main = runTest do
         show (fromInt (-27)) ==> "(Int53 -27.0)"
         show (fromInt (0)) ==> "(Int53 0.0)"
 
-    test "generics" do
-        assert "isValidSpine" $ isValidSpine (toSignature (Proxy :: Proxy Int53)) (toSpine (fromInt 27))
-
-        -- Check that toSpine and fromSpine round-trip
-        quickCheck \a ->
-            fromSpine (toSpine (fromInt a)) === Just (fromInt a)
-
-        -- Check that you can't construct a non-integer via generics
-        fromSpine (SProd "Data.Int53.Int53" [\_ -> SNumber 27.0]) ==> Just (fromInt 27)
-        fromSpine (SProd "Data.Int53.Int53" [\_ -> SNumber 28.3]) ==> (Nothing :: Maybe Int53)
-
     test "laws\n" $
-        liftEff do
+        liftEffect do
             checkSemiring proxyInt53
             checkBounded proxyInt53
             checkRing proxyInt53
@@ -192,7 +156,7 @@ main = runTest do
 
 infixl 9 equals as ==>
 
-equals :: ∀ a e. Eq a => Show a => a -> a -> Test e
+equals :: ∀ a. Eq a => Show a => a -> a -> Aff Unit
 equals = flip equal
 
 

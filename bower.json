@@ -16,16 +16,15 @@
     "output"
   ],
   "dependencies": {
-    "purescript-generics": "^4.0.0",
     "purescript-math": "^2.0.0",
-    "purescript-integers": "^3.0.0"
+    "purescript-integers": "^4.0.0"
   },
   "devDependencies": {
-    "purescript-console": "^3.0.0",
-    "purescript-aff": "^4.0.0",
-    "purescript-random": "^3.0.0",
-    "purescript-quickcheck-laws": "^3.0.0",
-    "purescript-test-unit": "^13.0.0"
+    "purescript-console": "^4.1.0",
+    "purescript-aff": "^5.0.1",
+    "purescript-random": "^4.0.0",
+    "purescript-quickcheck-laws": "^4.0.0",
+    "purescript-test-unit": "^14.0.0"
   },
   "repository": {
     "type": "git",
