@@ -11,7 +11,7 @@ provides an `Int53` type, for cases where you want all 53 bits
 
 For even larger numbers, consider
 [purescript-bigints](https://pursuit.purescript.org/packages/purescript-bigints), or
-[purescript-hugenums](https://pursuit.purescript.org/packages/purescript-hugenums).
+[purescript-hugenums](https://github.com/Thimoteus/purescript-hugenums).
 The advantage of purescript-int-53 over those is that purescript-int-53 is likely
 to be faster, since it provides a "thinner" wrapper over the underlying Javascript
 operations.
