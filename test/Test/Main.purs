@@ -2,12 +2,12 @@ module Test.Main where
 
 import Data.Int53
 
+import Data.Number (nan)
 import Data.Int as Int
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
-import Global (nan)
 import Prelude (class Bounded, class CommutativeRing, class Eq, class EuclideanRing, class Ord, class Ring, class Semiring, class Show, Unit, add, bind, bottom, degree, discard, div, flip, mod, mul, negate, one, pure, show, sub, top, zero, ($), (*), (+), (-), (>))
 import Test.QuickCheck ((===))
 import Test.QuickCheck.Arbitrary (class Arbitrary)
