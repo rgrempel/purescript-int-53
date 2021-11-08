@@ -66,8 +66,10 @@ import Prelude
     )
 
 import Math as Math
-import Global (readFloat, isNaN)
+import Control.Bind ((<=<))
 import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Number (isNaN)
+import Data.Number (fromString) as Number
 import Data.Int (toNumber, floor) as Int
 import Data.String (Pattern(..), stripSuffix)
 
@@ -267,7 +269,7 @@ toNumber (Int53 a) = a
 -- |     fromString "27.0" == Just (fromInt 27)
 -- |     fromString "27" == Just (fromInt 27)
 fromString :: String -> Maybe Int53
-fromString = fromNumber <<< readFloat
+fromString = fromNumber <=< Number.fromString
 
 
 -- | Converts an `Int53` to a `String`.
